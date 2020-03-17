@@ -65,10 +65,10 @@ namespace TrackManagementTester
         public void ReturnOneIfOneSubjectRegistered()
         {
 
-            Subject testTalk = new Subject("test Topic", _duration);
+            Subject testSubject = new Subject("test Topic", _duration);
 
-            _testConference.SubjectsLoader = new SingleSubjectLoader(testTalk);
-            _testConference.RegisterTalks();
+            _testConference.SubjectsLoader = new SingleSubjectLoader(testSubject);
+            _testConference.RegisterSubjects();
 
             Assert.AreEqual(_testConference.TotalSubjects, 1);
         }
@@ -79,34 +79,34 @@ namespace TrackManagementTester
             Subject testSubject = new Subject("test Topic", _duration);
 
             _testConference.SubjectsLoader=new SingleSubjectLoader(testSubject);
-            _testConference.RegisterTalks();
-            Subject registerTestTalk = _testConference.GetSubjectByName("test Topic");
+            _testConference.RegisterSubjects();
+            Subject registerTestSubject = _testConference.GetSubjectByName("test Topic");
 
-            Assert.AreEqual(testSubject.Topic, registerTestTalk.Topic);
+            Assert.AreEqual(testSubject.Topic, registerTestSubject.Topic);
             Assert.AreEqual(_testConference.TotalSubjects, 1);
-            Assert.AreEqual(testSubject.Duration, registerTestTalk.Duration);
+            Assert.AreEqual(testSubject.Duration, registerTestSubject.Duration);
         }
 
         [Test]
-        public void RegisterLightningTalks()
+        public void RegisterLightningSubjects()
         {
-            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetLightningTalksList());
-            _testConference.RegisterTalks();
+            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetLightningSubjectsList());
+            _testConference.RegisterSubjects();
         }
 
         [Test]
-        public void RegisterMultipleTalksProperly()
+        public void RegisterMultipleSubjectsProperly()
         {
             var testSubject1 = new Subject("TopicOne", _duration);
             var testSubject2 = new Subject("TopicTwo", _duration);
             var testSubject3 = new Subject("TopicThree", _duration);
 
             _testConference.SubjectsLoader = new SingleSubjectLoader(testSubject1);
-            _testConference.RegisterTalks();
+            _testConference.RegisterSubjects();
             _testConference.SubjectsLoader = new SingleSubjectLoader(testSubject2);
-            _testConference.RegisterTalks();
+            _testConference.RegisterSubjects();
             _testConference.SubjectsLoader = new SingleSubjectLoader(testSubject3);
-            _testConference.RegisterTalks();
+            _testConference.RegisterSubjects();
             
 
             var registeredSubject = _testConference.GetSubjectByName("TopicOne");
@@ -116,104 +116,104 @@ namespace TrackManagementTester
         }
 
         [Test]
-        public void ReturnNullIfTalkIsNotRegistered()
+        public void ReturnNullIfSubjectIsNotRegistered()
         {
-            Subject testTalk1 = new Subject("TopicOne", _duration);
-            _testConference.SubjectsLoader = new SingleSubjectLoader(testTalk1);
-            _testConference.RegisterTalks();
+            Subject testSubject1 = new Subject("TopicOne", _duration);
+            _testConference.SubjectsLoader = new SingleSubjectLoader(testSubject1);
+            _testConference.RegisterSubjects();
             
-            var registeredTalk = _testConference.GetSubjectByName("TopicTwo");
+            var registeredSubject = _testConference.GetSubjectByName("TopicTwo");
 
             Assert.AreEqual(_testConference.TotalSubjects, 1);
-            Assert.AreEqual(null, registeredTalk);
+            Assert.AreEqual(null, registeredSubject);
         }
 
         [Test]
         [ExpectedException]
-        public void NotRegisterTalksIfItCannotBeScheduled()
+        public void NotRegisterSubjectsIfItCannotBeScheduled()
         {
             _testConference = new Conference(_scheduler, new List<Day>(){ new Day( new List<Track>(){
                                                                             Helper.GetNewTrack()
                                                                           })});
          
-            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetTalksListOne());
-            _testConference.RegisterTalks();
+            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetSubjectsListOne());
+            _testConference.RegisterSubjects();
 
         }
 
         [Test]
-        public void BeAbleToImportTalksList()
+        public void BeAbleToImportSubjectsList()
         {
-            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetTalksListOne());
-            _testConference.RegisterTalks();
+            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetSubjectsListOne());
+            _testConference.RegisterSubjects();
             Assert.AreEqual(_testConference.TotalSubjects, 13);
         }
 
         [Test]
-        public void AddTalksIfTheyWereAddedInTwoTurns()
+        public void AddSubjectsIfTheyWereAddedInTwoTurns()
         {
-            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetTalksListOne());
-            _testConference.RegisterTalks();
+            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetSubjectsListOne());
+            _testConference.RegisterSubjects();
 
-            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetTalksListTwo());
-            _testConference.RegisterTalks();
+            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetSubjectsListTwo());
+            _testConference.RegisterSubjects();
 
             Assert.AreEqual(19, _testConference.TotalSubjects);
         }
 
         [Test]
-        public void ScheduleTalks()
+        public void ScheduleSubjects()
         {
-            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetTalksListOne());
-            _testConference.RegisterTalks();
+            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetSubjectsListOne());
+            _testConference.RegisterSubjects();
 
             _testConference.Schedule();
         }
 
         [Test]
-        public void AlsoScheduleTalksWithSharingEvent()
+        public void AlsoScheduleSubjectsWithSharingEvent()
         {
-            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetTalksListOne());
-            _testConference.RegisterTalks();
+            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetSubjectsListOne());
+            _testConference.RegisterSubjects();
 
-            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetTalksListTwo());
-            _testConference.RegisterTalks();
+            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetSubjectsListTwo());
+            _testConference.RegisterSubjects();
 
             _testConference.Schedule();
         }
 
         [Test]
-        public void ScheduleAllTheTalksRegistered()
+        public void ScheduleAllTheSubjectsRegistered()
         {
-            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetTalksListOne());
-            _testConference.RegisterTalks();
+            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetSubjectsListOne());
+            _testConference.RegisterSubjects();
 
             _testConference.Schedule();
 
-            Assert.AreEqual(13, GetScheduledTalks());
+            Assert.AreEqual(13, GetScheduledSubjects());
         }
 
         [Test]
-        public void ScheduleIfTalksWereRegisteredInIterations()
+        public void ScheduleIfSubjectsWereRegisteredInIterations()
         {
-            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetTalksListOne());
-            _testConference.RegisterTalks();
+            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetSubjectsListOne());
+            _testConference.RegisterSubjects();
 
-            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetTalksListTwo());
-            _testConference.RegisterTalks();
+            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetSubjectsListTwo());
+            _testConference.RegisterSubjects();
 
             _testConference.Schedule();
-            Assert.AreEqual(19, GetScheduledTalks());
+            Assert.AreEqual(19, GetScheduledSubjects());
         }
 
         [Test]
         public void WriteResultToTextFile()
         {
-            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetTalksListOne());
-            _testConference.RegisterTalks();
+            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetSubjectsListOne());
+            _testConference.RegisterSubjects();
 
-            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetTalksListTwo());
-            _testConference.RegisterTalks();
+            _testConference.SubjectsLoader = new FileSubjectsLoader(Helper.GetSubjectsListTwo());
+            _testConference.RegisterSubjects();
 
             _testConference.Schedule();
 
@@ -221,29 +221,29 @@ namespace TrackManagementTester
         }
 
 
-        private int GetScheduledTalks()
+        private int GetScheduledSubjects()
         {
-            return _testConference.Days.Sum(day => day.Tracks.Sum( track=>track.EveningSession.Talks.Count + track.MorningSession.Talks.Count));
+            return _testConference.Days.Sum(day => day.Tracks.Sum( track=>track.EveningSession.Subjects.Count + track.MorningSession.Subjects.Count));
         }
     }
 
     [TestFixture]
-    public class TalkShould
+    public class SubjectShould
     {
-        private Subject _testTalk;
+        private Subject _testSubject;
         private SubjectDuration _duration;
         [SetUp]
         public void Initialize()
         {
             _duration = new SubjectDuration(TimeUnit.Min, 60);
-            _testTalk = new Subject("Topic", _duration);
+            _testSubject = new Subject("Topic", _duration);
         }
 
         [Test]
         [ExpectedException]
         public void ThrowExceptionIfTitleContainsNumbers()
         {
-            _testTalk = new Subject("Topic1", _duration);
+            _testSubject = new Subject("Topic1", _duration);
         }
 
         [Test]
@@ -251,7 +251,7 @@ namespace TrackManagementTester
         public void ThrowExceptionForInvalidDuration()
         {
             _duration = new SubjectDuration(TimeUnit.Min, -10);
-            _testTalk = new Subject("Topic", _duration);
+            _testSubject = new Subject("Topic", _duration);
         }
 
     }
