@@ -8,3 +8,5 @@ b.Scheduler - This is having a interface for Scheduling the tracks for a prticul
 c.Slot- this is an abstract class and is being derived in to 3 childs, morning, lunch and evening slot, each having its own defined time limits
 d. Subject & SubjectLoder  - Subject is a class having the real subjects with time duration for individual subjects, nd the SubjectLoader is an intermediatory to load dat from a data set like, list of strings etc.
 e. ResultFormatter - Is a class to output dat in form of text file
+
+The sample was created with limited amount of time and hence there are probabilities that some thing might be missing, but the cases are created or which it had been tested. Right now the scheduler is working in a single anatomty hence different tracks are not coming and probably I will update the code to shuffle aroung the subjects on random basis
